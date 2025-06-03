@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRASH23ROOM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #111;
+      color: #fff;
+      padding: 1rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .section {
+      background: #222;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      background: #e63946;
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .points {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+    }
+    .game-box {
+      width: 100%;
+      height: 150px;
+      background: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.3rem 0;
+      border-radius: 6px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CRASH23ROOM</h1>
+    <p>Цифровой антистресс и реальный экшн</p>
+  </header>
+
+  <div class="section">
+    <h2>🎮 Играй и зарабатывай</h2>
+    <div class="game-box" onclick="addPoint()">💥 Кликни для удара</div>
+    <div class="points">Очков: <span id="points">0</span></div>
+  </div>
+
+  <div class="section">
+    <h2>🎯 Мои бонусы / цели</h2>
+    <p>1000 очков — мерч в подарок</p>
+    <button onclick="resetPoints()">Сбросить очки</button>
+  </div>
+
+  <div class="section">
+    <h2>📅 Забронировать CRASH-ROOM</h2>
+    <label>Пакет</label>
+    <select>
+      <option>Light</option>
+      <option>Medium</option>
+      <option>Hardcore</option>
+    </select>
+    <label>Дата</label>
+    <input type="date" />
+    <label>Время</label>
+    <input type="time" />
+    <button>Забронировать</button>
+  </div>
+
+  <div class="section">
+    <h2>🎁 Магазин подарков</h2>
+    <p>Футболка с мерчем — 1000 очков</p>
+    <button disabled>Получить (скоро)</button>
+  </div>
+
+  <div class="section">
+    <h2>📢 Новости и акции</h2>
+    <p>Скоро открытие новой комнаты в Краснодаре!</p>
+  </div>
+
+  <script>
+    let points = localStorage.getItem("points") || 0;
+    document.getElementById("points").innerText = points;
+
+    function addPoint() {
+      points++;
+      localStorage.setItem("points", points);
+      document.getElementById("points").innerText = points;
+    }
+
+    function resetPoints() {
+      points = 0;
+      localStorage.setItem("points", points);
+      document.getElementById("points").innerText = points;
+    }
+  </script>
+</body>
+</html>
