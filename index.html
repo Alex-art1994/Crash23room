@@ -23,11 +23,6 @@
       background: url('https://images.unsplash.com/photo-1617957741565-18e92e2ad1a3?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
-      transition: background 0.5s ease;
-    }
-    body.light {
-      background-color: #f0f0f0;
-      color: #000;
     }
     header {
       text-align: center;
@@ -43,9 +38,6 @@
       padding: 1rem;
       margin-bottom: 1rem;
     }
-    body.light .section {
-      background: rgba(255, 255, 255, 0.8);
-    }
     button {
       background: #e63946;
       color: white;
@@ -53,10 +45,6 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-    }
-    .points {
-      font-size: 1.2rem;
-      margin: 0.5rem 0;
     }
     .object-box {
       width: 100%;
@@ -87,70 +75,13 @@
       background: #76ff03;
       transition: width 0.2s;
     }
-    .flash {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.5);
-      animation: flash 0.2s ease-in-out;
-      pointer-events: none;
-    }
-    @keyframes flash {
-      0% { opacity: 0.7; }
-      100% { opacity: 0; }
-    }
-    .plus-one {
-      position: absolute;
-      font-size: 2rem;
-      color: yellow;
-      animation: rise 0.6s ease-out forwards;
-    }
-    @keyframes rise {
-      0% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-50px); }
-    }
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin: 0.3rem 0;
-      border-radius: 6px;
-      border: none;
-    }
-    .telegram-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #229ED9;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-      cursor: pointer;
-    }
-    .telegram-btn img {
-      width: 24px;
-      height: 24px;
-    }
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #444;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
+    .points {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
     }
   </style>
 </head>
 <body>
-<div class="theme-toggle" onclick="toggleTheme()">🌗 Тема</div>
   <header>
     <img src="icons/icon-192.png" alt="logo" class="logo" />
     <h1>CRASH23ROOM</h1>
@@ -166,101 +97,34 @@
     <div class="points">Очков: <span id="points">0</span> | Разбито: <span id="destroyed">0</span></div>
   </div>
 
-  <div class="section">
-    <h2>📈 Уровень</h2>
-    <p>Текущий уровень: <span id="level">1</span></p>
-  </div>
-
-  <div class="section">
-    <h2>🎯 Мои бонусы / цели</h2>
-    <p>1000 очков — мерч в подарок</p>
-    <button onclick="resetPoints()">Сбросить очки</button>
-  </div>
-
-  <div class="section">
-    <h2>📅 Забронировать CRASH-ROOM</h2>
-    <form action="https://ce34133a-026a-4462-b5b8-33a60a56dc76-00-mmzw9y2di0b5.spock.replit.dev/send" method="POST">
-      <label>Пакет</label>
-      <select name="Пакет">
-        <option>Light</option>
-        <option>Medium</option>
-        <option>Hardcore</option>
-      </select>
-      <label>Дата</label>
-      <input type="date" name="Дата" required />
-      <label>Время</label>
-      <input type="time" name="Время" required />
-      <label>Ваше имя</label>
-      <input type="text" name="Имя" required />
-      <label>Телефон</label>
-      <input type="tel" name="Телефон" required />
-      <button type="submit">Забронировать</button>
-    </form>
-  </div>
-
-  <div class="section">
-    <h2>🎁 Магазин подарков</h2>
-    <p>Футболка с мерчем — 1000 очков</p>
-    <button disabled>Получить (скоро)</button>
-  </div>
-
-  <div class="section">
-    <h2>📢 Новости и акции</h2>
-    <p>Скоро открытие новой комнаты в Краснодаре!</p>
-  </div>
-
-  <a href="https://t.me/crash23room" class="telegram-btn" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
-  </a>
-
   <audio id="hitSound" src="https://cdn.pixabay.com/download/audio/2022/03/31/audio_7f78672542.mp3?filename=glass-breaking-6018.mp3"></audio>
 
   <script>
     const objectList = [
       { name: 'бутылка', stages: [
-        'https://i.imgur.com/9zFg9vE.png',
-        'https://i.imgur.com/GDjZFRM.png'] },
+        'https://i.imgur.com/MYvMG3j.png',
+        'https://i.imgur.com/x9LxjIu.png'] },
       { name: 'телевизор', stages: [
-        'https://i.imgur.com/LlJmOem.png',
-        'https://i.imgur.com/bI5ZhR6.png',
-        'https://i.imgur.com/y9ZZ8Xm.png'] },
+        'https://i.imgur.com/qQbR2vd.png',
+        'https://i.imgur.com/qyG7mCO.png',
+        'https://i.imgur.com/qqOeRmN.png'] },
       { name: 'принтер', stages: [
-        'https://i.imgur.com/MKp4zWb.png',
-        'https://i.imgur.com/ylC4U3L.png',
-        'https://i.imgur.com/lVtK4fF.png',
-        'https://i.imgur.com/gbcRgG5.png'] },
+        'https://i.imgur.com/gX9sYNS.png',
+        'https://i.imgur.com/8UzIDH0.png',
+        'https://i.imgur.com/O0bFZYN.png'] },
       { name: 'стул', stages: [
-        'https://i.imgur.com/DzwkKJW.png',
-        'https://i.imgur.com/0D9sKXe.png'] },
+        'https://i.imgur.com/tI6p5Ry.png',
+        'https://i.imgur.com/UoHZl3Y.png'] },
       { name: 'монитор', stages: [
-        'https://i.imgur.com/5UnXY2R.png',
-        'https://i.imgur.com/D9Ecrha.png',
-        'https://i.imgur.com/9qEzxke.png'] },
-      { name: 'гитара', stages: [
-        'https://i.imgur.com/7tE5PA7.png',
-        'https://i.imgur.com/Bo6AeDw.png'] },
-      { name: 'будильник', stages: [
-        'https://i.imgur.com/ij4NUyk.png',
-        'https://i.imgur.com/J7yH10U.png'] },
-      { name: 'кукла', stages: [
-        'https://i.imgur.com/FlyfTP7.png',
-        'https://i.imgur.com/djLMzTx.png'] },
-      { name: 'вентилятор', stages: [
-        'https://i.imgur.com/lS6e2lt.png',
-        'https://i.imgur.com/wAkUtNO.png'] },
-      { name: 'микроволновка', stages: [
-        'https://i.imgur.com/6SEz5Ud.png',
-        'https://i.imgur.com/DGRQEx0.png',
-        'https://i.imgur.com/fesKHvU.png'] }
+        'https://i.imgur.com/ujnYjZI.png',
+        'https://i.imgur.com/gFPNj8E.png'] }
     ];
 
     let points = parseInt(localStorage.getItem("points")) || 0;
     let destroyed = parseInt(localStorage.getItem("destroyed")) || 0;
-    let level = Math.floor(destroyed / 10) + 1;
 
     document.getElementById("points").innerText = points;
     document.getElementById("destroyed").innerText = destroyed;
-    document.getElementById("level").innerText = level;
 
     let current = { index: 0, stage: 0 };
 
@@ -275,11 +139,9 @@
       const obj = objectList[current.index];
       if (current.stage < obj.stages.length - 1) {
         current.stage++;
-        playHitSound();
-        showFlash();
-        showPlusOne();
         document.getElementById("object-img").src = obj.stages[current.stage];
         updateHealthBar();
+        playHitSound();
       } else {
         points++;
         destroyed++;
@@ -287,9 +149,6 @@
         localStorage.setItem("destroyed", destroyed);
         document.getElementById("points").innerText = points;
         document.getElementById("destroyed").innerText = destroyed;
-        level = Math.floor(destroyed / 10) + 1;
-        document.getElementById("level").innerText = level;
-        updateBackground();
         loadNewObject();
       }
     }
@@ -300,62 +159,16 @@
       document.getElementById("health-bar").style.width = health + "%";
     }
 
-    function resetPoints() {
-      points = 0;
-      destroyed = 0;
-      level = 1;
-      localStorage.setItem("points", points);
-      localStorage.setItem("destroyed", destroyed);
-      document.getElementById("points").innerText = points;
-      document.getElementById("destroyed").innerText = destroyed;
-      document.getElementById("level").innerText = level;
-      updateBackground();
-    }
-
     function playHitSound() {
       const sound = document.getElementById("hitSound");
       sound.currentTime = 0;
       sound.play();
     }
 
-    function showFlash() {
-      const box = document.querySelector(".object-box");
-      const flash = document.createElement("div");
-      flash.className = "flash";
-      box.appendChild(flash);
-      setTimeout(() => flash.remove(), 200);
-    }
-
-    function showPlusOne() {
-      const box = document.querySelector(".object-box");
-      const plus = document.createElement("div");
-      plus.className = "plus-one";
-      plus.style.left = Math.random() * 60 + 20 + "%";
-      plus.style.top = Math.random() * 20 + 40 + "%";
-      plus.innerText = "+1";
-      box.appendChild(plus);
-      setTimeout(() => plus.remove(), 600);
-    }
-
-    const backgrounds = [
-      'https://images.unsplash.com/photo-1617957741565-18e92e2ad1a3?auto=format&fit=crop&w=1600&q=80',
-      'https://images.unsplash.com/photo-1581091870622-2b154d5cb9b4?auto=format&fit=crop&w=1600&q=80',
-      'https://images.unsplash.com/photo-1580910875156-6b6e08f1c85e?auto=format&fit=crop&w=1600&q=80'
-    ];
-
-    function updateBackground() {
-      let lvl = parseInt(localStorage.getItem('destroyed')) || 0;
-      document.body.style.backgroundImage = `url('${backgrounds[Math.min(Math.floor(lvl / 10), backgrounds.length - 1)]}')`;
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-    }
-
     window.onload = () => {
-      updateBackground();
       loadNewObject();
     }
   </script>
 </body>
 </html>
+
