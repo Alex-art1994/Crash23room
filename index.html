@@ -84,17 +84,25 @@
 
   <div class="section">
     <h2>📅 Забронировать CRASH-ROOM</h2>
-    <label>Пакет</label>
-    <select>
-      <option>Light</option>
-      <option>Medium</option>
-      <option>Hardcore</option>
-    </select>
-    <label>Дата</label>
-    <input type="date" />
-    <label>Время</label>
-    <input type="time" />
-    <button>Забронировать</button>
+    <form action="https://formsubmit.co/ajax/telegram@galanova.systems" method="POST" onsubmit="this.submit(); this.reset(); alert('Заявка отправлена!'); return false;">
+      <label>Пакет</label>
+      <select name="Пакет">
+        <option value="Light">Light</option>
+        <option value="Medium">Medium</option>
+        <option value="Hardcore">Hardcore</option>
+      </select>
+      <label>Дата</label>
+      <input type="date" name="Дата" required />
+      <label>Время</label>
+      <input type="time" name="Время" required />
+      <label>Ваше имя</label>
+      <input type="text" name="Имя" required />
+      <label>Телефон</label>
+      <input type="tel" name="Телефон" required />
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <button type="submit">Забронировать</button>
+    </form>
   </div>
 
   <div class="section">
@@ -126,4 +134,3 @@
   </script>
 </body>
 </html>
-
