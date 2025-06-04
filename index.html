@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CRASH23ROOM</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -18,16 +19,21 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: #111;
-      color: #fff;
       padding: 1rem;
+      background: url('https://rageroomradar.com/wp-content/uploads/2023/09/Best-Rage-Rooms-In-Idaho-1-1024x574.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
     }
     header {
       text-align: center;
       margin-bottom: 1rem;
     }
+    .logo {
+      width: 100px;
+      border-radius: 50%;
+    }
     .section {
-      background: #222;
+      background: rgba(0, 0, 0, 0.7);
       border-radius: 10px;
       padding: 1rem;
       margin-bottom: 1rem;
@@ -54,6 +60,45 @@
       border-radius: 10px;
       cursor: pointer;
       font-size: 1.5rem;
+      transition: transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .game-box:active {
+      transform: scale(0.95);
+      background-color: #e63946;
+      animation: shake 0.2s;
+    }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      25% { transform: translate(-1px, -2px) rotate(-1deg); }
+      50% { transform: translate(-3px, 0px) rotate(1deg); }
+      75% { transform: translate(3px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -1px) rotate(1deg); }
+    }
+    .flash {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.5);
+      animation: flash 0.2s ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes flash {
+      0% { opacity: 0.7; }
+      100% { opacity: 0; }
+    }
+    .plus-one {
+      position: absolute;
+      font-size: 2rem;
+      color: yellow;
+      animation: rise 0.6s ease-out forwards;
+    }
+    @keyframes rise {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-50px); }
     }
     input, select {
       width: 100%;
@@ -62,17 +107,37 @@
       border-radius: 6px;
       border: none;
     }
+    .telegram-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #229ED9;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      cursor: pointer;
+    }
+    .telegram-btn img {
+      width: 24px;
+      height: 24px;
+    }
   </style>
 </head>
 <body>
   <header>
+    <img src="icons/icon-192.png" alt="logo" class="logo" />
     <h1>CRASH23ROOM</h1>
     <p>Цифровой антистресс и реальный экшн</p>
   </header>
 
   <div class="section">
     <h2>🎮 Играй и зарабатывай</h2>
-    <div class="game-box" onclick="addPoint()">💥 Кликни для удара</div>
+    <div class="game-box" onclick="addPoint(); playHitSound(); showFlash(); showPlusOne();">💥 Кликни для удара</div>
     <div class="points">Очков: <span id="points">0</span></div>
   </div>
 
@@ -84,12 +149,12 @@
 
   <div class="section">
     <h2>📅 Забронировать CRASH-ROOM</h2>
-    <form action="https://https://ce34133a-026a-4462-b5b8-33a60a56dc76-00-mmzw9y2di0b5.spock.replit.dev/" method="POST" onsubmit="this.submit(); this.reset(); alert('Заявка отправлена!'); return false;">
+    <form action="https://ce34133a-026a-4462-b5b8-33a60a56dc76-00-mmzw9y2di0b5.spock.replit.dev/send" method="POST">
       <label>Пакет</label>
       <select name="Пакет">
-        <option value="Light">Light</option>
-        <option value="Medium">Medium</option>
-        <option value="Hardcore">Hardcore</option>
+        <option>Light</option>
+        <option>Medium</option>
+        <option>Hardcore</option>
       </select>
       <label>Дата</label>
       <input type="date" name="Дата" required />
@@ -99,8 +164,6 @@
       <input type="text" name="Имя" required />
       <label>Телефон</label>
       <input type="tel" name="Телефон" required />
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
       <button type="submit">Забронировать</button>
     </form>
   </div>
@@ -115,6 +178,12 @@
     <h2>📢 Новости и акции</h2>
     <p>Скоро открытие новой комнаты в Краснодаре!</p>
   </div>
+
+  <a href="https://t.me/crash23room" class="telegram-btn" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
+  </a>
+
+  <audio id="hitSound" src="https://assets.mixkit.co/sfx/download/mixkit-glass-break-impact-768.wav"></audio>
 
   <script>
     let points = localStorage.getItem("points") || 0;
@@ -131,6 +200,32 @@
       localStorage.setItem("points", points);
       document.getElementById("points").innerText = points;
     }
+
+    function playHitSound() {
+      const sound = document.getElementById("hitSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function showFlash() {
+      const box = document.querySelector(".game-box");
+      const flash = document.createElement("div");
+      flash.className = "flash";
+      box.appendChild(flash);
+      setTimeout(() => flash.remove(), 200);
+    }
+
+    function showPlusOne() {
+      const box = document.querySelector(".game-box");
+      const plus = document.createElement("div");
+      plus.className = "plus-one";
+      plus.style.left = Math.random() * 60 + 20 + "%";
+      plus.style.top = Math.random() * 20 + 40 + "%";
+      plus.innerText = "+1";
+      box.appendChild(plus);
+      setTimeout(() => plus.remove(), 600);
+    }
   </script>
 </body>
 </html>
+
