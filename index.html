@@ -20,7 +20,7 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 1rem;
-      background: url('https://rageroomradar.com/wp-content/uploads/2023/09/Best-Rage-Rooms-In-Idaho-1-1024x574.png') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1617957741565-18e92e2ad1a3?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
     }
@@ -50,31 +50,34 @@
       font-size: 1.2rem;
       margin: 0.5rem 0;
     }
-    .game-box {
+    .object-box {
       width: 100%;
-      height: 150px;
-      background: #444;
+      height: 250px;
+      background: #222;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 1.5rem;
-      transition: transform 0.1s;
       position: relative;
       overflow: hidden;
     }
-    .game-box:active {
-      transform: scale(0.95);
-      background-color: #e63946;
-      animation: shake 0.2s;
+    .object-box img {
+      height: 200px;
+      transition: transform 0.1s;
     }
-    @keyframes shake {
-      0% { transform: translate(1px, 1px) rotate(0deg); }
-      25% { transform: translate(-1px, -2px) rotate(-1deg); }
-      50% { transform: translate(-3px, 0px) rotate(1deg); }
-      75% { transform: translate(3px, 2px) rotate(0deg); }
-      100% { transform: translate(1px, -1px) rotate(1deg); }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #555;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #76ff03;
+      transition: width 0.2s;
     }
     .flash {
       position: absolute;
@@ -136,9 +139,17 @@
   </header>
 
   <div class="section">
-    <h2>🎮 Играй и зарабатывай</h2>
-    <div class="game-box" onclick="addPoint(); playHitSound(); showFlash(); showPlusOne();">💥 Кликни для удара</div>
-    <div class="points">Очков: <span id="points">0</span></div>
+    <h2>🎮 Уничтожай предметы</h2>
+    <div class="object-box" onclick="hitObject()">
+      <img id="object-img" src="" alt="object" />
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="health-bar"></div></div>
+    <div class="points">Очков: <span id="points">0</span> | Разбито: <span id="destroyed">0</span></div>
+  </div>
+
+  <div class="section">
+    <h2>📈 Уровень</h2>
+    <p>Текущий уровень: <span id="level">1</span></p>
   </div>
 
   <div class="section">
@@ -186,19 +197,77 @@
   <audio id="hitSound" src="https://assets.mixkit.co/sfx/download/mixkit-glass-break-impact-768.wav"></audio>
 
   <script>
-    let points = localStorage.getItem("points") || 0;
-    document.getElementById("points").innerText = points;
+    let points = parseInt(localStorage.getItem("points")) || 0;
+    let destroyed = parseInt(localStorage.getItem("destroyed")) || 0;
+    let level = Math.floor(destroyed / 10) + 1;
 
-    function addPoint() {
-      points++;
-      localStorage.setItem("points", points);
-      document.getElementById("points").innerText = points;
+    document.getElementById("points").innerText = points;
+    document.getElementById("destroyed").innerText = destroyed;
+    document.getElementById("level").innerText = level;
+
+    const objects = Array.from({length: 10}).map((_, i) => {
+      const hits = Math.floor(Math.random() * 3) + 2;
+      const images = Array.from({length: hits}).map((_, j) => `https://dummyimage.com/300x200/222/fff&text=Obj${i+1}+${j+1}`);
+      images.push("https://dummyimage.com/300x200/880000/fff&text=Разбито!");
+      return {
+        name: `object${i+1}`,
+        hitsRequired: hits,
+        images: images
+      };
+    });
+
+    let current = {
+      index: 0,
+      hit: 0
+    };
+
+    function loadNewObject() {
+      current.index = Math.floor(Math.random() * objects.length);
+      current.hit = 0;
+      const obj = objects[current.index];
+      document.getElementById("object-img").src = obj.images[0];
+      updateHealthBar();
+    }
+
+    function hitObject() {
+      const obj = objects[current.index];
+      if (current.hit < obj.hitsRequired) {
+        current.hit++;
+        playHitSound();
+        showFlash();
+        showPlusOne();
+        if (current.hit >= obj.hitsRequired) {
+          points++;
+          destroyed++;
+          localStorage.setItem("points", points);
+          localStorage.setItem("destroyed", destroyed);
+          document.getElementById("points").innerText = points;
+          document.getElementById("destroyed").innerText = destroyed;
+          level = Math.floor(destroyed / 10) + 1;
+          document.getElementById("level").innerText = level;
+          loadNewObject();
+        } else {
+          document.getElementById("object-img").src = obj.images[current.hit];
+        }
+        updateHealthBar();
+      }
+    }
+
+    function updateHealthBar() {
+      const obj = objects[current.index];
+      const health = ((obj.hitsRequired - current.hit) / obj.hitsRequired) * 100;
+      document.getElementById("health-bar").style.width = health + "%";
     }
 
     function resetPoints() {
       points = 0;
+      destroyed = 0;
+      level = 1;
       localStorage.setItem("points", points);
+      localStorage.setItem("destroyed", destroyed);
       document.getElementById("points").innerText = points;
+      document.getElementById("destroyed").innerText = destroyed;
+      document.getElementById("level").innerText = level;
     }
 
     function playHitSound() {
@@ -208,7 +277,7 @@
     }
 
     function showFlash() {
-      const box = document.querySelector(".game-box");
+      const box = document.querySelector(".object-box");
       const flash = document.createElement("div");
       flash.className = "flash";
       box.appendChild(flash);
@@ -216,7 +285,7 @@
     }
 
     function showPlusOne() {
-      const box = document.querySelector(".game-box");
+      const box = document.querySelector(".object-box");
       const plus = document.createElement("div");
       plus.className = "plus-one";
       plus.style.left = Math.random() * 60 + 20 + "%";
@@ -225,7 +294,10 @@
       box.appendChild(plus);
       setTimeout(() => plus.remove(), 600);
     }
+
+    window.onload = loadNewObject;
   </script>
 </body>
 </html>
+
 
